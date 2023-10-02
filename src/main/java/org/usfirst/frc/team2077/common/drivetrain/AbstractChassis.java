@@ -77,7 +77,6 @@ public abstract class AbstractChassis<DriveModule > extends SubsystemBase implem
         double now = getSeconds.get();
         timeSinceLastUpdate = now - lastUpdateTime;
         lastUpdateTime = now;
-        System.out.println("among us");
         updatePosition();
         limitVelocity(NORTH, maximumSpeed);
         limitVelocity(EAST, maximumSpeed);

@@ -28,9 +28,15 @@ public class CardinalMovement extends CommandBase {
 		double north = -stick.getNorth();
 		double east = stick.getEast();
 
+
+
 		// Tank drive
 		north = Math.abs(north) >= Math.abs(east) ? north : 0;
 		east = Math.abs(east) > Math.abs(north) ? east : 0;
+
+//		if(north != 0 || east != 0){
+//			System.out.println("[ NORTH = " + north + "][EAST = " + east + "]");
+//		}
 
 		chassis.setVelocityPercent(north, east);
 	}

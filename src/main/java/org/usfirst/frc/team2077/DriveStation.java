@@ -51,7 +51,7 @@ public class DriveStation {
         hardware.getHeading().setDefaultCommand(new RotationMovement(hardware, driveStick));
 
         bindDriverControl(hardware, driveStick);
-        bindTechnicalControl(hardware, technicalStick);
+        //bindTechnicalControl(hardware, technicalStick);
     }
 
     /** Bind primary driver's button commands here */

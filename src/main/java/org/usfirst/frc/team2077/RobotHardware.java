@@ -43,7 +43,13 @@ public class RobotHardware implements org.usfirst.frc.team2077.common.RobotHardw
 
     @Override
     public TankModule getWheel(WheelPosition position) {
-        return null;
+        for(TankModule.DrivePosition drivePosition : TankModule.DrivePosition.values()){
+            if(drivePosition.position == position){
+                return new TankModule(drivePosition);
+            }
+        }
+
+        throw new IllegalArgumentException("no drive position for wheel position: " + position);
     }
 
     @Override public AngleSensor getAngleSensor() {

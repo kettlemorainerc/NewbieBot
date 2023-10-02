@@ -1,11 +1,13 @@
 package org.usfirst.frc.team2077.drivetrain;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team2077.common.Clock;
 import org.usfirst.frc.team2077.common.RobotHardware;
 import org.usfirst.frc.team2077.common.WheelPosition;
 import org.usfirst.frc.team2077.common.drivetrain.AbstractChassis;
 import org.usfirst.frc.team2077.common.math.AccelerationLimits;
 import org.usfirst.frc.team2077.subsystem.TankModule;
+import org.usfirst.frc.team2077.util.SmartDashNumber;
 
 import java.util.EnumMap;
 
@@ -16,6 +18,7 @@ public class TankChassis extends AbstractChassis<TankModule> {
 private static final double WHEELBASE = 22 + 1/2;
 private static final double TRACK_WIDTH = 20 + 5/8;
 private static final double WHEEL_RADIUS = 2;
+private static final SmartDashNumber MAX_SPEED = new SmartDashNumber("Max Speed", 0.5, true);
 
 //    public TankChassis(EnumMap<WheelPosition, DriveModuleIF> driveModule) {
 //        this(driveModule, Clock::getSeconds);
@@ -29,6 +32,13 @@ private static final double WHEEL_RADIUS = 2;
 
         super(buildDriveTrain(hardware), WHEELBASE, TRACK_WIDTH, WHEEL_RADIUS, Clock::getSeconds);
 
+        MAX_SPEED.onChange(this::maxSpeedUpdated);
+//        MAX_SPEED.onChange(() -> maxSpeedUpdated());
+        maxSpeedUpdated();
+    }
+
+    private void maxSpeedUpdated() {
+        maximumRotation = maximumSpeed = MAX_SPEED.get();
     }
 
     @Override
