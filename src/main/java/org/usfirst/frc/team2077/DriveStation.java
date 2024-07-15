@@ -25,8 +25,8 @@ public class DriveStation {
     private static final int FLYSKY_PORT = 2;
     private static final int NUMPAD_PORT = 5;
 
-    private final DriveStick driveStick;
-    private final Joystick technicalStick;
+    private final DriveXboxController driveStick;
+    private final DriveXboxController technicalStick;
 
     public DriveStation(RobotHardware hardware) {
         /** Set the driver's control method this MUST be a {@link DriveStick} implementation */
@@ -35,9 +35,9 @@ public class DriveStation {
         driveStick = getXbox();
 
         /** Set the technical control method. This can be any {@link Joystick} implementation */
-//        technicalStick = getTechnicalJoystick();
-        technicalStick = getNumpad();
-
+        //technicalStick = getTechnicalJoystick();
+        //technicalStick = getNumpad();
+        technicalStick = getXbox();
         bind(hardware);
     }
 
@@ -51,7 +51,7 @@ public class DriveStation {
         hardware.getHeading().setDefaultCommand(new RotationMovement(hardware, driveStick));
 
         bindDriverControl(hardware, driveStick);
-        //bindTechnicalControl(hardware, technicalStick);
+        //bindTechnicalControl(hardware, );
     }
 
     /** Bind primary driver's button commands here */
@@ -59,7 +59,8 @@ public class DriveStation {
     }
 
     /** Bind technical driver button commands here */
-    private void bindTechnicalControl(RobotHardware hardware, Joystick secondary) {
+    private void bindTechnicalControl(RobotHardware hardware, DriveXboxController secondary) {
+        //InputMap.bindAxis(ScissorArm.Input.EXTEND, secondary::getRightTriggerAxis);
     }
 
     /** Normal (silver/brighter) joystick that supports rotation */

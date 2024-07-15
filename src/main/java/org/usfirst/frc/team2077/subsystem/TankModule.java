@@ -2,8 +2,6 @@ package org.usfirst.frc.team2077.subsystem;
 
 import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import org.usfirst.frc.team2077.common.WheelPosition;
 import org.usfirst.frc.team2077.common.drivetrain.DriveModuleIF;
@@ -34,8 +32,9 @@ public class TankModule implements Subsystem, DriveModuleIF {
 
     public TankModule(DrivePosition position) {
         register();
-        this.motorController = new VictorSPX(position.motorID);
 
+        this.motorController = new VictorSPX(position.motorID);
+        
         this.motorController.setInverted(position.inversed);
         this.position = position;
 

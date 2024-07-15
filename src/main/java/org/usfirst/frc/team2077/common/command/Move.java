@@ -14,7 +14,7 @@ import org.usfirst.frc.team2077.common.math.AccelerationLimits.*;
 
 import java.util.*;
 
-public class Move extends CommandBase {
+public class Move extends Command {
 	public static final double ACCELERATION_G_LIMIT = .1;
 	public static final double DECELERATION_G_LIMIT = .3;
 	private final AbstractChassis chassis;

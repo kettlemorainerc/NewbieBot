@@ -9,14 +9,14 @@ import edu.wpi.first.wpilibj2.command.*;
 import org.usfirst.frc.team2077.common.*;
 import org.usfirst.frc.team2077.common.drivetrain.*;
 
-public class CardinalMovement extends CommandBase {
+public class CardinalMovement extends Command {
 	public static final double ACCELERATION_G_LIMIT = .4;
 	public static final double DECELERATION_G_LIMIT = ACCELERATION_G_LIMIT; //1e10 //.35 is the value used for the 03-05-21 version
 
 	protected DriveStick stick;
 	protected DriveChassisIF chassis;
 
-	public CardinalMovement(RobotHardware hardware, DriveStick stick) {
+	public CardinalMovement(RobotHardware hardware, DriveXboxController stick) {
 		addRequirements(hardware.getPosition());
 
 		this.stick = stick;
