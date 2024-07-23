@@ -31,8 +31,9 @@ public class CardinalMovement extends Command {
 
 
 		// Tank drive
-		north = Math.abs(north) >= Math.abs(east) ? north : 0;
-		east = Math.abs(east) > Math.abs(north) ? east : 0;
+//		TODO: This is where we want to test @@@
+//		north = Math.abs(north) >= Math.abs(east) ? north : 0;
+//		east = Math.abs(east) > Math.abs(north) ? east : 0;
 
 //		if(north != 0 || east != 0){
 //			System.out.println("[ NORTH = " + north + "][EAST = " + east + "]");

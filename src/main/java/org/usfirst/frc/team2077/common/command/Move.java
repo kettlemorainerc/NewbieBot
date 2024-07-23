@@ -121,13 +121,13 @@ public class Move extends Command {
 		}
 
 		switch(method) {
-			case 3:
+			case 3: // North & East & Rotation
 				chassis.setVelocity(vNew[0], vNew[0], vNew[2], acceleration);
 				break;
-			case 2:
+			case 2: // North & East
 				chassis.setVelocity(vNew[0], vNew[0], acceleration);
 				break;
-			case 1:
+			case 1: // Only rotation
 				chassis.setRotation(vNew[2], acceleration);
 				break;
 		}

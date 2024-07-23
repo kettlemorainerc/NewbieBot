@@ -1,6 +1,5 @@
 package org.usfirst.frc.team2077.drivetrain;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team2077.common.Clock;
 import org.usfirst.frc.team2077.common.RobotHardware;
 import org.usfirst.frc.team2077.common.WheelPosition;
@@ -12,13 +11,13 @@ import org.usfirst.frc.team2077.util.SmartDashNumber;
 import java.util.EnumMap;
 
 import static org.usfirst.frc.team2077.common.drivetrain.MecanumMath.VelocityDirection.*;
-import static org.usfirst.frc.team2077.common.drivetrain.MecanumMath.VelocityDirection.ROTATION;
 
 public class TankChassis extends AbstractChassis<TankModule> {
 private static final double WHEELBASE = 22 + 1/2;
 private static final double TRACK_WIDTH = 20 + 5/8;
 private static final double WHEEL_RADIUS = 2;
-private static final SmartDashNumber MAX_SPEED = new SmartDashNumber("Max Speed", 0.5, true);
+private static final SmartDashNumber MAX_SPEED = new SmartDashNumber("Max Speed", 1.0, true);
+private static final SmartDashNumber MAX_ROTATION = new SmartDashNumber("Max Rotation", 0.1, true);
 
 //    public TankChassis(EnumMap<WheelPosition, DriveModuleIF> driveModule) {
 //        this(driveModule, Clock::getSeconds);
@@ -33,12 +32,13 @@ private static final SmartDashNumber MAX_SPEED = new SmartDashNumber("Max Speed"
         super(buildDriveTrain(hardware), WHEELBASE, TRACK_WIDTH, WHEEL_RADIUS, Clock::getSeconds);
 
         MAX_SPEED.onChange(this::maxSpeedUpdated);
-//        MAX_SPEED.onChange(() -> maxSpeedUpdated());
+        MAX_ROTATION.onChange(this::maxSpeedUpdated);
         maxSpeedUpdated();
     }
 
     private void maxSpeedUpdated() {
-        maximumRotation = maximumSpeed = MAX_SPEED.get();
+        maximumRotation = MAX_ROTATION.get();
+        maximumSpeed = MAX_SPEED.get();
     }
 
     @Override
@@ -48,23 +48,35 @@ private static final SmartDashNumber MAX_SPEED = new SmartDashNumber("Max Speed"
 
     @Override
     protected void updateDriveModules() {
-       double forwardVelocity = targetVelocity.get(NORTH);
-       double rotationalVelocity = targetVelocity.get(ROTATION);
+       double forward = targetVelocity.get(NORTH);
+       double rotation = targetVelocity.get(ROTATION);
 
-       if(forwardVelocity != 0){
-        for(WheelPosition position : WheelPosition.values()) {
-            driveModule.get(position).setVelocity(forwardVelocity);
-        }
-       } else if(rotationalVelocity != 0){
-           driveModule.get(WheelPosition.NORTH_EAST).setVelocity(-rotationalVelocity);
-           driveModule.get(WheelPosition.SOUTH_EAST).setVelocity(-rotationalVelocity);
-           driveModule.get(WheelPosition.NORTH_WEST).setVelocity(rotationalVelocity);
-           driveModule.get(WheelPosition.SOUTH_WEST).setVelocity(rotationalVelocity);
-       } else {
-           for(WheelPosition position : WheelPosition.values()) {
-               driveModule.get(position).setVelocity(0);
-           }
-       }
+       //TODO: make sure that the speeds being passed into set velocity are acurate to what the wheels can output
+
+        double rotationComponent = rotation * TRACK_WIDTH / 2.0;
+
+        double leftWheels =  (forward + rotationComponent) / wheelRadius;
+        double rightWheels = (forward - rotationComponent) / wheelRadius;
+
+       driveModule.get(WheelPosition.NORTH_EAST).setVelocity(leftWheels);
+       driveModule.get(WheelPosition.SOUTH_EAST).setVelocity(leftWheels);
+
+       driveModule.get(WheelPosition.NORTH_WEST).setVelocity(rightWheels);
+       driveModule.get(WheelPosition.SOUTH_WEST).setVelocity(rightWheels);
+//       if(forwardVelocity != 0){
+//        for(WheelPosition position : WheelPosition.values()) {
+//            driveModule.get(position).setVelocity(forwardVelocity);
+//        }
+//       } else if(rotationalVelocity != 0){
+//           driveModule.get(WheelPosition.NORTH_EAST).setVelocity(-rotationalVelocity);
+//           driveModule.get(WheelPosition.SOUTH_EAST).setVelocity(-rotationalVelocity);
+//           driveModule.get(WheelPosition.NORTH_WEST).setVelocity(rotationalVelocity);
+//           driveModule.get(WheelPosition.SOUTH_WEST).setVelocity(rotationalVelocity);
+//       } else {
+//           for(WheelPosition position : WheelPosition.values()) {
+//               driveModule.get(position).setVelocity(0);
+//           }
+//       }
     }
 
     @Override
