@@ -49,7 +49,13 @@ private static final SmartDashNumber MAX_ROTATION = new SmartDashNumber("Max Rot
     @Override
     protected void updateDriveModules() {
        double forward = targetVelocity.get(NORTH);
-       double rotation = targetVelocity.get(ROTATION);
+       double rotation;
+       if(forward <= -0.05 || forward >= 0.05){
+            rotation = targetVelocity.get(ROTATION) * (Math.abs(forward) * 1.5);
+            //.05 is dead zones, whole thing makes it so it wont turn while standing still
+        }else{
+           rotation = 0;
+       }
 
        //TODO: make sure that the speeds being passed into set velocity are acurate to what the wheels can output
 
